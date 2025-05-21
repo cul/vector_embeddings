@@ -1,0 +1,11 @@
+# Bundler config
+/.bundle
+
+# Logfiles and tempfiles
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# macOS Files
+.DS_Store
