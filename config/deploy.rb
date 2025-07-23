@@ -18,7 +18,7 @@ set :keep_releases, 3
 
 # RVM Setup, for selecting the correct ruby version (instead of capistrano-rvm gem)
 set :rvm_ruby_version, fetch(:deploy_name) # This RVM alias must exist on the server
-[:rake, :gem, :bundle, :ruby].each do |command_to_prefix|
+%i[rake gem bundle ruby].each do |command_to_prefix|
   SSHKit.config.command_map.prefix[command_to_prefix].push(
     "#{fetch(:rvm_custom_path, '~/.rvm')}/bin/rvm #{fetch(:rvm_ruby_version)} do"
   )
