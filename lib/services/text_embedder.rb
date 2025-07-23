@@ -4,6 +4,7 @@ require 'transformers-rb'
 require 'logger'
 
 module Services
+  # Service for using sentence transformers to generate vector document embeddings
   class TextEmbedder
     class EmbeddingError < StandardError; end
     class ModelInitializationError < StandardError; end

@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'json'
 require './lib/services/text_embedder'
 
+# a Sinatra API for generating vector document embeddings
 class VectorEmbeddingEndpoint < Sinatra::Base
   configure do
     set :show_exceptions, false
