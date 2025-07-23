@@ -35,8 +35,8 @@ RSpec.describe VectorEmbeddingEndpoint do
         post '/vectorize', { text: 'some text' }
         response_data = JSON.parse(last_response.body, symbolize_names: true)
 
-        expect(response_data[:status]).to eq('error')  
-        expect(response_data[:message]).to eq('A model name is required.')  
+        expect(response_data[:status]).to eq('error')
+        expect(response_data[:message]).to eq('A model name is required.')
       end
     end
 
