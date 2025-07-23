@@ -39,7 +39,7 @@ class VectorEmbeddingEndpoint < Sinatra::Base
 
       {
         status: 'success',
-        embeddings:
+        embeddings: embeddings
       }.to_json
     rescue Services::TextEmbedder::InvalidInputError => e
       error_response("Invalid input: #{e.message}", 400)
@@ -58,7 +58,7 @@ class VectorEmbeddingEndpoint < Sinatra::Base
     status status_code
     {
       status: 'error',
-      message:
+      message: message
     }.to_json
   end
 end
