@@ -7,9 +7,10 @@ gem 'torch-rb', '~> 0.19.1'
 gem 'transformers-rb', '~> 0.1.6'
 group :development do
   gem 'capistrano', '~> 3.19.2', require: false
-  gem 'capistrano-passenger'
   gem 'capistrano-bundler'
   gem 'capistrano-cul', require: false
+  gem 'capistrano-passenger'
+  gem 'rubocul', '~> 4.0'
   gem 'sinatra-contrib', require: false
 end
 group :test do
