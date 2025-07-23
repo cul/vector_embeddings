@@ -27,4 +27,3 @@ end
 set :passenger_restart_with_touch, true
 
 set :ssh_options, { forward_agent: true }
-
