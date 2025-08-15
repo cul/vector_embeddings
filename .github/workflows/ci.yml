@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ '*' ]
+
+jobs:
+  ci-rails-app:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['3.3.7']
+    env:
+      LIBTORCH_VERSION: 2.6.0
+    steps:
+      - name: Download libtorch
+        run: |
+          # Download libtorch
+          cd /tmp
+          curl 'https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.6.0%2Bcpu.zip' > libtorch.zip
+          unzip libtorch.zip
+          ls -la /tmp
+          ls -la /tmp/libtorch
+          # Create a bundle config file that points torch-rb to the downloaded location
+          mkdir -p ~/.bundle
+          echo -e '---\nBUNDLE_BUILD__TORCH___RB: "--with-torch-dir=/tmp/libtorch"' > ~/.bundle/config
+          cat ~/.bundle/config
+      - uses: actions/checkout@v3
+      - name: Add --no-document option to .gemrc file to speed up bundle install
+        run: "echo 'gem: --no-document' > ~/.gemrc"
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Run rubocop
+        run: bundle exec rubocop
+      - name: Run rspec task
+        run: bundle exec rspec
