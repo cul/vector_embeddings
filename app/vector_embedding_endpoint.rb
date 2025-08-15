@@ -35,11 +35,11 @@ class VectorEmbeddingEndpoint < Sinatra::Base
     begin
       embedder = Services::TextEmbedder.new(model: model_name)
 
-      embeddings = embedder.embed(text)
+      text_embeddings = embedder.embed(text)
 
       {
         status: 'success',
-        embeddings: embeddings
+        embeddings: text_embeddings
       }.to_json
     rescue Services::TextEmbedder::InvalidInputError => e
       error_response("Invalid input: #{e.message}", 400)
@@ -54,11 +54,11 @@ class VectorEmbeddingEndpoint < Sinatra::Base
 
   private
 
-  def error_response(message, status_code = 400)
+  def error_response(error_message, status_code = 400)
     status status_code
     {
       status: 'error',
-      message: message
+      message: error_message
     }.to_json
   end
 end
