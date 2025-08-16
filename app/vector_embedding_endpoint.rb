@@ -33,7 +33,7 @@ class VectorEmbeddingEndpoint < Sinatra::Base
     return error_response('Missing or empty text parameter', 400) if text.nil? || text.empty?
 
     begin
-      embedder = Services::TextEmbedder.new(model: model_name)
+      embedder = Services::TextEmbedder.get(model: model_name)
 
       text_embeddings = embedder.embed(text)
 

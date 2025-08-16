@@ -6,9 +6,17 @@ require 'logger'
 module Services
   # Service for using sentence transformers to generate vector document embeddings
   class TextEmbedder
+    IN_MEMORY_MODEL_CACHE = {}
+
     class EmbeddingError < StandardError; end
     class ModelInitializationError < StandardError; end
     class InvalidInputError < ArgumentError; end
+
+    # Returns a class-cached instance of the requested model
+    def self.get(model:)
+      IN_MEMORY_MODEL_CACHE[model] = self.new(model: model) unless IN_MEMORY_MODEL_CACHE.key?(model)
+      IN_MEMORY_MODEL_CACHE[model]
+    end
 
     def initialize(model:)
       raise InvalidInputError, 'A model name is required.' unless model
