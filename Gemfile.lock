@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/cul/torch.rb.git
+  revision: 9fca229ef35bb77163b413f5183b7d538202d35f
+  branch: 0.19.1-cul
+  specs:
+    torch-rb (0.19.1)
+      rice (>= 4.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -178,8 +186,6 @@ GEM
     tokenizers (0.5.5)
       rb_sys
     tokenizers (0.5.5-arm64-darwin)
-    torch-rb (0.19.1)
-      rice (>= 4.5)
     transformers-rb (0.1.6)
       logger
       numo-narray (>= 0.9.2)
@@ -206,7 +212,7 @@ DEPENDENCIES
   simplecov
   sinatra
   sinatra-contrib
-  torch-rb (~> 0.19.1)
+  torch-rb!
   transformers-rb (~> 0.1.6)
 
 BUNDLED WITH
