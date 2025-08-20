@@ -3,13 +3,12 @@
 # config valid for current version and patch releases of Capistrano
 lock '~> 3.19.2'
 
-set :instance, 'ldpd'
 set :application, 'vector_embeddings'
 set :repo_url, 'git@github.com:cul/vector_embeddings.git'
 set :deploy_name, "#{fetch(:application)}_#{fetch(:stage)}"
 set :rvm_custom_path, '~/.rvm-alma8'
 set :rvm_ruby_version, fetch(:deploy_name)
-set :remote_user, "#{fetch(:instance)}serv"
+set :remote_user, 'renserv'
 
 set :deploy_to,   "/opt/passenger/#{fetch(:deploy_name)}"
 
