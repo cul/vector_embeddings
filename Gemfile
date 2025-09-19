@@ -3,6 +3,8 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem 'rackup'
+gem 'puma'
 # NOTE: This torch-rb version must be built with libtorch 2.6, so that's why we're pinning the minor version.
 gem 'torch-rb', github: 'cul/torch.rb', branch: '0.19.1-cul'
 gem 'transformers-rb', '~> 0.1.6'

@@ -23,10 +23,10 @@ class VectorEmbeddingEndpoint < Sinatra::Base
     'Vector Embeddings Web App'
   end
 
-  post %r{/vectorize(?:/(.*))?} do
+  post '/vectorize' do
     content_type :json
 
-    model_name = params[:captures]&.first
+    model_name = params['model']
     text = params['text']
 
     return error_response('A model name is required.', 400) if model_name.nil? || model_name.empty?
