@@ -6,7 +6,7 @@ require 'logger'
 module Services
   # Service for using sentence transformers to generate vector document embeddings
   class TextEmbedder
-    IN_MEMORY_MODEL_CACHE = {} # rubocop:disable Style/MutableConstant
+    IN_MEMORY_MODEL_CACHE ||= {} # rubocop:disable Style/MutableConstant
 
     class EmbeddingError < StandardError; end
     class ModelInitializationError < StandardError; end
@@ -43,7 +43,16 @@ module Services
     private
 
     def initialize_pipeline
-      @embedding_pipeline = Transformers.pipeline('embedding', @model_name)
+      device = if Torch::Backends::MPS.available?
+                 Torch.device('mps')
+               else
+                 Torch.device('cpu')
+               end
+
+      logger = Logger.new($stdout)
+      logger.info("Initializing embedding pipeline with device: #{device.type}")
+
+      @embedding_pipeline = Transformers.pipeline('embedding', @model_name, device:)
     rescue StandardError => e
       raise ModelInitializationError, "Failed to create embedding pipeline: #{e.message}"
     end

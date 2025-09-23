@@ -10,8 +10,15 @@ RSpec.describe Services::TextEmbedder do
 
   before do
     allow(Transformers).to receive(:pipeline)
-      .with('embedding', 'model_name')
+      .with('embedding', 'model_name', any_args)
       .and_return(embedding_pipeline)
+  end
+
+  before do
+    # silence info logging for these tests
+    logger = Logger.new($stdout)
+    logger.level = Logger::WARN
+    allow(Logger).to receive(:new).and_return(logger)
   end
 
   describe '#initialize' do
@@ -20,7 +27,8 @@ RSpec.describe Services::TextEmbedder do
     end
 
     it 'assigns the model name correctly' do
-      allow(Transformers).to receive(:pipeline).with('embedding', 'custom-model').and_return(embedding_pipeline)
+      allow(Transformers).to receive(:pipeline).with('embedding', 'custom-model',
+                                                     any_args).and_return(embedding_pipeline)
       embedder = Services::TextEmbedder.new(model: 'custom-model')
       expect(embedder.instance_variable_get(:@model_name)).to eq('custom-model')
     end
