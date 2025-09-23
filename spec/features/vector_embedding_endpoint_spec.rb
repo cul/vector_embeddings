@@ -44,7 +44,7 @@ RSpec.describe VectorEmbeddingEndpoint do
       it 'embedder uses specified model' do
         specified_model = 'custom-model'
 
-        post "/vectorize/#{specified_model}", { text: sample_text }
+        post '/vectorize', { text: sample_text, model: specified_model }
 
         expect(last_response).to be_ok
         response_data = JSON.parse(last_response.body, symbolize_names: true)
@@ -58,7 +58,7 @@ RSpec.describe VectorEmbeddingEndpoint do
       it 'embedder uses specified model when name has forward slashes' do
         specified_model = 'BAAI/bge-small-en-v1.5'
 
-        post "/vectorize/#{specified_model}", { text: sample_text }
+        post '/vectorize', { text: sample_text, model: specified_model }
 
         expect(last_response).to be_ok
         response_data = JSON.parse(last_response.body, symbolize_names: true)
@@ -72,7 +72,7 @@ RSpec.describe VectorEmbeddingEndpoint do
 
     context 'when text parameter is incorrect' do
       it 'returns 400 when text is missing' do
-        post "/vectorize/#{model_name}"
+        post '/vectorize', { model: model_name }
 
         expect(last_response.status).to eq(400)
         response_data = JSON.parse(last_response.body, symbolize_names: true)
@@ -82,7 +82,7 @@ RSpec.describe VectorEmbeddingEndpoint do
       end
 
       it 'returns 400 when text is empty' do
-        post "/vectorize/#{model_name}", { text: '' }
+        post '/vectorize', { text: '', model: model_name }
 
         expect(last_response.status).to eq(400)
         response_data = JSON.parse(last_response.body, symbolize_names: true)
@@ -94,11 +94,11 @@ RSpec.describe VectorEmbeddingEndpoint do
 
     context 'when text embedder raises errors' do
       it 'returns 500 for model initialization errors' do
-        allow(Services::TextEmbedder).to receive(:new).and_raise(
+        allow(Services::TextEmbedder).to receive(:get).and_raise(
           Services::TextEmbedder::ModelInitializationError.new('Failed to load model')
         )
 
-        post "/vectorize/#{model_name}", { text: sample_text }
+        post '/vectorize', { text: sample_text, model: model_name }
 
         expect(last_response.status).to eq(500)
         response_data = JSON.parse(last_response.body, symbolize_names: true)
@@ -112,7 +112,7 @@ RSpec.describe VectorEmbeddingEndpoint do
           Services::TextEmbedder::EmbeddingError.new('Computation failed')
         )
 
-        post "/vectorize/#{model_name}", { text: sample_text }
+        post '/vectorize', { text: sample_text, model: model_name }
 
         expect(last_response.status).to eq(500)
         response_data = JSON.parse(last_response.body, symbolize_names: true)

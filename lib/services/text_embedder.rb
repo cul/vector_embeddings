@@ -6,7 +6,7 @@ require 'logger'
 module Services
   # Service for using sentence transformers to generate vector document embeddings
   class TextEmbedder
-    IN_MEMORY_MODEL_CACHE = {}
+    IN_MEMORY_MODEL_CACHE = {} # rubocop:disable Style/MutableConstant
 
     class EmbeddingError < StandardError; end
     class ModelInitializationError < StandardError; end
@@ -14,7 +14,7 @@ module Services
 
     # Returns a class-cached instance of the requested model
     def self.get(model:)
-      IN_MEMORY_MODEL_CACHE[model] = self.new(model: model) unless IN_MEMORY_MODEL_CACHE.key?(model)
+      IN_MEMORY_MODEL_CACHE[model] = new(model:) unless IN_MEMORY_MODEL_CACHE.key?(model)
       IN_MEMORY_MODEL_CACHE[model]
     end
 
